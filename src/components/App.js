@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import PartySelector from './PartySelector';
+import Pollsters from './Pollsters';
+
+const defaultPollster = 'YG';
 
 class App extends Component {
   render() {
     return (
       <div>
-        <PartySelector />
+        <Pollsters selectPollster={val => console.log(val)} defaultPollster={defaultPollster}/>
       </div>
     );
   }

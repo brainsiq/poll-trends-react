@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import Pollsters from './Pollsters';
 
-const defaultPollster = 'YG';
-
 class App extends Component {
+  selectPollster = pollster => {
+    localStorage.setItem('selectedPollster', pollster);
+  }
+
+  getDefaultPollster = () =>
+    localStorage.getItem('selectedPollster') || 'YG';
+
   render() {
     return (
       <div>
-        <Pollsters selectPollster={val => console.log(val)} defaultPollster={defaultPollster}/>
+        <Pollsters
+          selectPollster={this.selectPollster}
+          defaultPollster={this.getDefaultPollster()}
+        />
       </div>
     );
   }

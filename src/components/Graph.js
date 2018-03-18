@@ -73,6 +73,7 @@ class Graph extends Component {
   render() {
     return <Line
       data={this.state.graphData}
+      height={75}
       legend={{
         position: 'bottom'
       }}

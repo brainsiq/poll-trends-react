@@ -42,6 +42,15 @@ class Graph extends Component {
     }
   }
 
+  selectDate = chartElements => {
+    const dateLabel = this.state.graphData.labels[chartElements[0]._index];
+    const dateParts = dateLabel.split('/').map(part => parseInt(part, 10));
+
+    const date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+
+    this.props.selectDate(date);
+  }
+
   loadPolls(pollster) {
     const today = new Date().toISOString();
     const limit = 20;
@@ -77,6 +86,7 @@ class Graph extends Component {
       legend={{
         position: 'bottom'
       }}
+      onElementsClick={this.selectDate}
     />
   }
 }

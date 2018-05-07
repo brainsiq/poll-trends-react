@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Pollsters from './Pollsters';
 import Graph from './Graph';
+import News from './News';
 
 class App extends Component {
   constructor() {
     super();
 
     this.state = {
+      date: null,
       pollster: this.getDefaultPollster(),
       parties: []
     };
@@ -14,7 +16,11 @@ class App extends Component {
 
   selectPollster = pollster => {
     localStorage.setItem('selectedPollster', pollster);
-    this.setState({ pollster, parties: this.state.parties });
+    this.setState({ ...this.state, pollster });
+  }
+
+  selectDate = date => {
+    this.setState({ ...this.state, date });
   }
 
   getDefaultPollster = () =>
@@ -26,7 +32,7 @@ class App extends Component {
         return  response.json();
       })
       .then(parties => {
-        const state = { parties, pollster: this.state.pollster }
+        const state = { ...this.state, parties }
 
         this.setState(state);
       })
@@ -40,7 +46,9 @@ class App extends Component {
           defaultPollster={this.getDefaultPollster()}
         />
 
-        <Graph pollster={this.state.pollster} parties={this.state.parties} />
+        <Graph pollster={this.state.pollster} parties={this.state.parties} selectDate={this.selectDate} />
+
+        <News date={this.state.date} />
       </div>
     );
   }

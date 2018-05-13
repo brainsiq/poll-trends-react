@@ -48,7 +48,7 @@ class App extends Component {
 
         <Graph pollster={this.state.pollster} parties={this.state.parties} selectDate={this.selectDate} />
 
-        <News date={this.state.date} />
+        <News date={this.state.date} parties={this.state.parties} />
       </div>
     );
   }

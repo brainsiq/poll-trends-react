@@ -61,7 +61,6 @@ class Graph extends Component {
         return response.json();
       })
       .then(polls => {
-        console.log(polls)
         this.setState({
           graphData: mapPollsToGraphData(this.props.parties, polls),
           pollster

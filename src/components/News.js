@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Slider from 'react-slick';
+import Parties from './Parties';
 
 var settings = {
   dots: true,
@@ -38,9 +39,16 @@ class News extends Component {
     );
   }
 
+  selectParty = party => {
+    this.loadStories(this.state.date, party);
+  }
+
   renderSlider() {
     return (
-      <Slider { ...settings }>{ this.state.stories.map(this.renderStory) }</Slider>
+      <div>
+        <Parties parties={ this.props.parties } selectParty={ this.selectParty } />
+        <Slider { ...settings }>{ this.state.stories.map(this.renderStory) }</Slider>
+      </div>
     );
   }
 
@@ -48,8 +56,14 @@ class News extends Component {
     return 'Select a date to see relevant news stories';
   }
 
-  loadStories(date) {
-    fetch(`http://localhost:3000/news?limit=10&pollDate=${date.toISOString()}`)
+  loadStories(date, party) {
+    let url = `http://localhost:3000/news?limit=10&pollDate=${date.toISOString()}`;
+
+    if (party) {
+      url += `&partyId=${party}`;
+    }
+
+    fetch(url)
       .then(response => response.json())
       .then(stories => {
         this.setState({ ...this.state, stories });

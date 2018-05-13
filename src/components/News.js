@@ -10,6 +10,17 @@ var settings = {
   slidesToScroll: 1
 };
 
+const renderBanner = () => 'Select a date to see relevant news stories';
+const renderStory = story =>
+  (
+    <div key={ story.id }>
+      <a href={ story.webUrl } target="guardian">
+        <img src={ story.fields.thumbnail} alt={ story.webTitle } width="150" />
+        <h3>{ story.webTitle }</h3>
+      </a>
+    </div>
+  );
+
 class News extends Component {
   constructor() {
     super();
@@ -27,18 +38,7 @@ class News extends Component {
       this.loadStories(nextProps.date);
     }
   }
-
-  renderStory(story) {
-    return (
-      <div key={ story.id }>
-        <a href={ story.webUrl } target="guardian">
-          <img src={ story.fields.thumbnail} alt={ story.webTitle } width="150" />
-          <h3>{ story.webTitle }</h3>
-        </a>
-      </div>
-    );
-  }
-
+  
   selectParty = party => {
     this.loadStories(this.state.date, party);
   }
@@ -47,13 +47,9 @@ class News extends Component {
     return (
       <div>
         <Parties parties={ this.props.parties } selectParty={ this.selectParty } />
-        <Slider { ...settings }>{ this.state.stories.map(this.renderStory) }</Slider>
+        <Slider { ...settings }>{ this.state.stories.map(renderStory) }</Slider>
       </div>
     );
-  }
-
-  renderBanner() {
-    return 'Select a date to see relevant news stories';
   }
 
   loadStories(date, party) {
@@ -73,7 +69,7 @@ class News extends Component {
   render() {
     return this.state.date ?
       this.renderSlider() :
-      this.renderBanner();
+      renderBanner();
   }
 }
 

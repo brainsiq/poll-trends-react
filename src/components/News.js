@@ -13,42 +13,47 @@ class News extends Component {
   constructor() {
     super();
 
-    this.state = { date: null };
+    this.state = {
+      date: null,
+      stories: []
+    };
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.date !== this.props.date) {
-      this.setState({ date: nextProps.date })
+      this.setState({ ...this.state, date: nextProps.date })
+
+      this.loadStories(nextProps.date);
     }
+  }
+
+  renderStory(story) {
+    return (
+      <div key={ story.id }>
+        <a href={ story.webUrl } target="guardian">
+          <img src={ story.fields.thumbnail} alt={ story.webTitle } width="150" />
+          <h3>{ story.webTitle }</h3>
+        </a>
+      </div>
+    );
   }
 
   renderSlider() {
     return (
-      <Slider { ...settings }>
-        <div>
-          <h3>{ this.state.date.toString() }</h3>
-        </div>
-        <div>
-          <h3>2</h3>
-        </div>
-        <div>
-          <h3>3</h3>
-        </div>
-        <div>
-          <h3>4</h3>
-        </div>
-        <div>
-          <h3>5</h3>
-        </div>
-        <div>
-          <h3>6</h3>
-        </div>
-      </Slider>
+      <Slider { ...settings }>{ this.state.stories.map(this.renderStory) }</Slider>
     );
   }
 
   renderBanner() {
     return 'Select a date to see relevant news stories';
+  }
+
+  loadStories(date) {
+    fetch(`http://localhost:3000/news?limit=10&pollDate=${date.toISOString()}`)
+      .then(response => response.json())
+      .then(stories => {
+        this.setState({ ...this.state, stories });
+      });
   }
 
   render() {

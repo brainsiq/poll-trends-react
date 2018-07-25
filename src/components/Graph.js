@@ -87,7 +87,11 @@ class Graph extends Component {
       data={this.state.graphData}
       height={75}
       legend={{
-        position: 'bottom'
+        position: 'bottom',
+        labels: {
+          boxWidth: 12,
+          padding: 20
+        }
       }}
       onElementsClick={this.selectDate}
     />

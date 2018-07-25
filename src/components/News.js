@@ -35,10 +35,12 @@ class News extends Component {
     if (nextProps.date !== this.props.date) {
       this.setState({ ...this.state, date: nextProps.date })
 
-      this.loadStories(nextProps.date);
+      if (nextProps.date) {
+        this.loadStories(nextProps.date);
+      }
     }
   }
-  
+
   selectParty = party => {
     this.loadStories(this.state.date, party);
   }

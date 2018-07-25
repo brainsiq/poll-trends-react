@@ -16,7 +16,11 @@ class App extends Component {
 
   selectPollster = pollster => {
     localStorage.setItem('selectedPollster', pollster);
-    this.setState({ ...this.state, pollster });
+    this.setState({
+      ...this.state,
+      pollster,
+      date: null
+    });
   }
 
   selectDate = date => {

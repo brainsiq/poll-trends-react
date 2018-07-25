@@ -43,6 +43,10 @@ class Graph extends Component {
   }
 
   selectDate = chartElements => {
+    if (!chartElements.length) {
+      return;
+    }
+
     const dateLabel = this.state.graphData.labels[chartElements[0]._index];
     const dateParts = dateLabel.split('/').map(part => parseInt(part, 10));
 
